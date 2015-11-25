@@ -2,6 +2,8 @@ package Entity;
 
 import java.awt.image.BufferedImage;
 
+import DisplayManager.DisplayManager;
+
 public class Block extends Entity{
 
 	public Block(int x, int y, BufferedImage sprite) {
@@ -17,5 +19,6 @@ public class Block extends Entity{
 	public BufferedImage Render() {
 		return this.getSprite();
 	}
+
 
 }

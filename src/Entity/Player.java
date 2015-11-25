@@ -1,6 +1,7 @@
 package Entity;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Animation.Animation;
@@ -19,7 +20,11 @@ public class Player{
 	BufferedImage LEFT[] = new BufferedImage[3];
 	BufferedImage RIGHT[] = new BufferedImage[3];
 	
-	public int x,y;
+	public int x,y,Health=100, Mana=100,
+				   MaxHealth=100, MaxMana=100,
+				   Dex=5,
+				   Range=15;
+	public Rectangle Box;
 	
 	public Player(int x, int y) {
 		this.x=x;
@@ -46,6 +51,7 @@ public class Player{
 		AnimLEFT = new Animation(4, LEFT[0], LEFT[1], LEFT[2]);
 		AnimRIGHT = new Animation(4, RIGHT[0], RIGHT[1], RIGHT[2]);
 		
+		Box = new Rectangle(x,y,UP[0].getWidth(),UP[0].getHeight());
 
 	}
 
@@ -54,6 +60,8 @@ public class Player{
 		AnimDOWN.runAnimation();
 		AnimLEFT.runAnimation();
 		AnimRIGHT.runAnimation();
+		
+		Box = new Rectangle(this.x,this.y,UP[0].getWidth(),UP[0].getHeight());
 	}
 
 	public void RenderUP(Graphics g) {

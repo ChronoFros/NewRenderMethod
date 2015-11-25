@@ -1,6 +1,8 @@
 package Entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Animation.Animation;
@@ -20,12 +22,16 @@ public class Enemy {
 	private static BufferedImage LEFT[] = new BufferedImage[3];
 	private static BufferedImage RIGHT[] = new BufferedImage[3];
 	
-	public int x,y,XOffset,YOffset;
+	public int x,y,XOffset,YOffset,
+			   HP;
+	public Rectangle Box;
 	int xir=2;
 	
-	public Enemy(int x, int y) {
+	public Enemy(int x, int y, int HP) {
 		this.XOffset=x;
 		this.YOffset=y;
+		this.HP=HP;
+
 		UP[0]=loader.Load(0, 132, 26, 45, "Enemy.png");
 		UP[1]=loader.Load(27, 132, 26, 45, "Enemy.png");
 		UP[2]=loader.Load(54, 132, 26, 45, "Enemy.png");
@@ -42,10 +48,12 @@ public class Enemy {
 		RIGHT[1]=loader.Load(27, 88, 26, 45, "Enemy.png");
 		RIGHT[2]=loader.Load(54, 88, 26, 45, "Enemy.png");
 		
-		AnimUP = new Animation(4, UP[0], UP[1], UP[2]);
-		AnimDOWN = new Animation(4, DOWN[0], DOWN[1], DOWN[2]);
-		AnimLEFT = new Animation(4, LEFT[0], LEFT[1], LEFT[2]);
-		AnimRIGHT = new Animation(4, RIGHT[0], RIGHT[1], RIGHT[2]);
+		AnimUP = new Animation(1, UP[0], UP[1], UP[2]);
+		AnimDOWN = new Animation(1, DOWN[0], DOWN[1], DOWN[2]);
+		AnimLEFT = new Animation(1, LEFT[0], LEFT[1], LEFT[2]);
+		AnimRIGHT = new Animation(1, RIGHT[0], RIGHT[1], RIGHT[2]);
+		
+		Box = new Rectangle(x+225,y+206,UP[0].getWidth(),UP[0].getHeight());
 
 	}
 
@@ -59,6 +67,7 @@ public class Enemy {
 		} else if(xir=="RIGHT"){
 			this.xir=4;
 		}
+		
 		AnimUP.runAnimation();
 		AnimDOWN.runAnimation();
 		AnimLEFT.runAnimation();
@@ -66,6 +75,8 @@ public class Enemy {
 
 		this.x=(NewRenderMethod.Width-x)+XOffset;
 		this.y=(NewRenderMethod.Height-y)+YOffset;
+		
+		Box = new Rectangle(this.x,this.y,UP[0].getWidth(),UP[0].getHeight());
 	}
 
 	public void Render(Graphics g){
@@ -80,6 +91,10 @@ public class Enemy {
 				} else if(xir==4){
 					RenderRIGHT(g);
 				}
+				g.setColor(Color.RED);
+				g.fillRect(x,y-10,26,7);
+				g.setColor(Color.GREEN);
+				g.fillRect(x,y-10,(13*HP)/100,7);
 			}
 		}
 	}

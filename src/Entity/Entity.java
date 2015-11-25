@@ -2,10 +2,11 @@ package Entity;
 
 import java.awt.image.BufferedImage;
 
+import DisplayManager.DisplayManager;
 import SpriteSheet.SpriteSheet;
 
 abstract class Entity {
-	public int x,y;
+	public int x,y,xx,yy,LifeSpan;
 	public BufferedImage sprite;
 	public SpriteSheet sheet;
 	
@@ -20,6 +21,15 @@ abstract class Entity {
 		this.sprite=sprite;
 		this.x=x;
 		this.y=y;
+	}
+	public Entity(int x,int y, int xx, int yy, int LifeSpan, String Sprite){
+		sheet = new SpriteSheet(Sprite);
+		this.sprite=sheet.getImage();
+		this.x=x;
+		this.y=y;
+		this.xx=xx;
+		this.yy=yy;
+		this.LifeSpan=LifeSpan;
 	}
 	
 	public abstract void Update();
@@ -47,9 +57,5 @@ abstract class Entity {
 	
 	public BufferedImage getSprite(){
 		return sprite;
-	}
-
-	public void Update(int xx, int yy) {
-		
 	}
 }

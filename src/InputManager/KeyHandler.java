@@ -7,7 +7,7 @@ import NewRenderMethod.NewRenderMethod;
 
 public class KeyHandler implements KeyListener{
 	
-	public boolean UP,DOWN,LEFT,RIGHT;
+	public boolean UP,DOWN,LEFT,RIGHT,ONKEY,SPECIAL;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -25,17 +25,24 @@ public class KeyHandler implements KeyListener{
 	}
 	
 	public void setKEY(KeyEvent e,boolean KeyState){
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W)
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
 			UP=KeyState;
-			NewRenderMethod.ONKEY=KeyState;
-		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
+			ONKEY=KeyState;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
 			DOWN=KeyState;
-			NewRenderMethod.ONKEY=KeyState;
-		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
+			ONKEY=KeyState;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A){
 			LEFT=KeyState;
-			NewRenderMethod.ONKEY=KeyState;
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
+			ONKEY=KeyState;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D){
 			RIGHT=KeyState;
-			NewRenderMethod.ONKEY=KeyState;
+			ONKEY=KeyState;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE ){
+			SPECIAL=KeyState;
+		}
 	}
 }
