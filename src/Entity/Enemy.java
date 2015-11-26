@@ -12,26 +12,25 @@ import SpriteSheet.Loader;
 public class Enemy {
 
 	private static Loader loader = new Loader();
-	private static Animation AnimUP;
-	private static Animation AnimDOWN;
-	private static Animation AnimLEFT;
-	private static Animation AnimRIGHT;
+	private Animation AnimUP;
+	private Animation AnimDOWN;
+	private Animation AnimLEFT;
+	private Animation AnimRIGHT;
 	
-	private static BufferedImage UP[] = new BufferedImage[3];
-	private static BufferedImage DOWN[] = new BufferedImage[3];
-	private static BufferedImage LEFT[] = new BufferedImage[3];
-	private static BufferedImage RIGHT[] = new BufferedImage[3];
+	private BufferedImage UP[] = new BufferedImage[3];
+	private BufferedImage DOWN[] = new BufferedImage[3];
+	private BufferedImage LEFT[] = new BufferedImage[3];
+	private BufferedImage RIGHT[] = new BufferedImage[3];
 	
 	public int x,y,XOffset,YOffset,
-			   HP;
+			   HP,xir=2;
 	public Rectangle Box;
-	int xir=2;
 	
 	public Enemy(int x, int y, int HP) {
 		this.XOffset=x;
 		this.YOffset=y;
 		this.HP=HP;
-
+		
 		UP[0]=loader.Load(0, 132, 26, 45, "Enemy.png");
 		UP[1]=loader.Load(27, 132, 26, 45, "Enemy.png");
 		UP[2]=loader.Load(54, 132, 26, 45, "Enemy.png");
@@ -54,7 +53,6 @@ public class Enemy {
 		AnimRIGHT = new Animation(1, RIGHT[0], RIGHT[1], RIGHT[2]);
 		
 		Box = new Rectangle(x+225,y+206,UP[0].getWidth(),UP[0].getHeight());
-
 	}
 
 	public void Update(int x, int y,String xir) {

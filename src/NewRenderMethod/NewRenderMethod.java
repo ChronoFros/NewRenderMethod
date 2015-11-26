@@ -53,6 +53,7 @@ public class NewRenderMethod extends Canvas implements Runnable{
 	}
 	
 	public void Update(){
+		manager.CheckCollision();
 		manager.Update(manager.xOffset, manager.yOffset);
 		manager.MovePlayer(4, manager.xOffset, manager.yOffset,
 				map.TileSize()*((map.map.length/2)+6),
