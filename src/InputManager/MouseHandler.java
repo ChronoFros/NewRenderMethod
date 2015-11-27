@@ -7,7 +7,7 @@ import java.awt.event.MouseMotionListener;
 public class MouseHandler implements MouseListener,MouseMotionListener{
 
 	public int x,y;
-	public boolean FIREING;
+	public boolean LOOTED;
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -26,12 +26,16 @@ public class MouseHandler implements MouseListener,MouseMotionListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		FIREING=true;
+		if(e.getX() > 468 && e.getX() < 606){
+			if(e.getY() > 424 && e.getY() < 476){
+				LOOTED=true;
+			}
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		FIREING=false;
+
 	}
 
 	@Override

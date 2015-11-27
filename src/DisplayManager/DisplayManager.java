@@ -27,8 +27,8 @@ public class DisplayManager {
 	private LinkedList<Integer> EnemyX = new LinkedList<Integer>();
 	private LinkedList<Integer> EnemyY = new LinkedList<Integer>();
 	
-	public boolean UP,DOWN,LEFT,RIGHT,ONKEY;
-	public int xOffset = 430, yOffset = 670, xxOffset, yyOffset, OriginX, OriginY;
+	public boolean UP,DOWN,LEFT,RIGHT,ONKEY,LOOTABLE;
+	public int xOffset = 455, yOffset = 581, xxOffset, yyOffset, OriginX, OriginY;
 	
 	private int[] EnemyTicks = new int[10];
 	private String[] EnemyDirection = new String[10];
@@ -36,7 +36,8 @@ public class DisplayManager {
 	
 	public BufferedImage Manager;
 	public BufferedImage MiniMap;
-	public int[][] pixel; 
+	
+	public int[][] pixel;
 	
 	private Inventory inventory = new Inventory();
 	
@@ -48,7 +49,7 @@ public class DisplayManager {
 	}
 	
 	public void addMap(Map map){
-		pixel = new int[(map.map.length)*(map.TileSize()+1)][(map.map.length)*(map.TileSize()+1)];
+		pixel = new int[map.Village.getWidth()][map.Village.getHeight()];
 		MiniMap = new SpriteSheet("MiniMap.png").getImage();
 		//for(int x=0; x< map.map.length;x++){
 		//	for(int y=0; y< map.map.length;y++){
@@ -58,7 +59,16 @@ public class DisplayManager {
 		map.Render();
 	}
 	
-	public void CheckCollision(){
+	public void CheckCollision(boolean LOOTED){
+		for(int x =0;x<player.size();x++){
+			for(int y =0;y<enemy.size();y++){
+				if(player.get(x).Box.intersects(enemy.get(y).Box)){
+					if(player.get(x).Health >= 2)player.get(x).Health-=1;
+				}
+			}
+		}
+		
+		LOOTABLE=false;
 		for(int x =0;x<bullet.size();x++){
 			for(int y =0;y<enemy.size();y++){
 				if(bullet.get(x).Box.intersects(enemy.get(y).Box)){
@@ -84,10 +94,6 @@ public class DisplayManager {
 					if(enemy.get(y).HP<1){
 						addChest(new LootChest(xOffset-(OriginX-enemy.get(y).XOffset),yOffset-(OriginY-enemy.get(y).YOffset)));
 						chest.getLast().setLocation(EnemyX.get(x).intValue()+xOffset,EnemyY.get(x).intValue()+yOffset);
-						int loot=(int) (Math.random()*3);
-						if(loot == 0)inventory.addItem(new SpriteSheet("Blade.png").getImage());
-						if(loot == 1)inventory.addItem(new SpriteSheet("Armor.png").getImage());
-						if(loot == 2)inventory.addItem(new SpriteSheet("Boots.png").getImage());
 						removeEnemy(y);
 					}
 					
@@ -96,17 +102,18 @@ public class DisplayManager {
 		}
 		
 		for(int x =0;x<player.size();x++){
-			for(int y =0;y<enemy.size();y++){
-				if(player.get(x).Box.intersects(enemy.get(y).Box)){
-					if(player.get(x).Health >= 2)player.get(x).Health-=1;
-				}
-			}
-		}
-		
-		for(int x =0;x<player.size();x++){
 			for(int y =0;y<chest.size();y++){
 				if(player.get(x).Box.intersects(chest.get(y).Box)){
 					chest.get(y).ChestOpen=true;
+					LOOTABLE=true;
+					if(LOOTED && LOOTABLE){
+						int loot=(int) (Math.random()*3);
+						if(loot == 0)inventory.addItem(new SpriteSheet("Blade.png").getImage());
+						if(loot == 1)inventory.addItem(new SpriteSheet("Armor.png").getImage());
+						if(loot == 2)inventory.addItem(new SpriteSheet("Boots.png").getImage());
+						removeChest(y);
+						LOOTABLE=false;
+					}
 				}
 			}
 		}
@@ -225,6 +232,7 @@ public class DisplayManager {
 		g.drawString(player.get(ID).Mana+"/"+player.get(ID).MaxMana, 510, 210);
 		
 		inventory.Render(g);
+		if(LOOTABLE)g.drawImage(new SpriteSheet("Loot.png").getImage(), 468, 424, null);
 	}
 	
 	public void addBullet(Bullet enemy){
@@ -267,7 +275,7 @@ public class DisplayManager {
 		this.chest.remove(index);
 	}
 	
-	public void MovePlayer(int speed, int x, int y, int width, int height, int mouseX, int mouseY, boolean UP, boolean DOWN, boolean LEFT, boolean RIGHT, boolean ONKEY, boolean SPECIAL, boolean FIREING){
+	public void MovePlayer(int speed, int x, int y, int width, int height, int mouseX, int mouseY, boolean UP, boolean DOWN, boolean LEFT, boolean RIGHT, boolean ONKEY, boolean SPECIAL){
 		if(y >= 4 ){
 			if(UP){
 				this.UP=true;

@@ -53,15 +53,17 @@ public class NewRenderMethod extends Canvas implements Runnable{
 	}
 	
 	public void Update(){
-		manager.CheckCollision();
+		frame.setTitle("-Mortals Domain");
+		manager.CheckCollision(mouse.LOOTED);
 		manager.Update(manager.xOffset, manager.yOffset);
 		manager.MovePlayer(4, manager.xOffset, manager.yOffset,
-				map.TileSize()*((map.map.length/2)+6),
-				map.TileSize()*((map.map.length/2)+5),
+				1054,
+				808,
 				mouse.x, mouse.y,
 				input.UP, input.DOWN, input.LEFT,
 				input.RIGHT, input.ONKEY,
-				input.SPECIAL, mouse.FIREING);
+				input.SPECIAL);
+		mouse.LOOTED=false;
 	}
 	
 	public void Render(){
@@ -82,13 +84,9 @@ public class NewRenderMethod extends Canvas implements Runnable{
 	}
 
 	public void Init(){
-		manager.addEnemy(new Enemy(0,0,200));
-		manager.addEnemy(new Enemy(100,100,200));
-		manager.addEnemy(new Enemy(0,200,200));
-		manager.addEnemy(new Enemy(100,300,200));
-		manager.addEnemy(new Enemy(0,400,200));
-		manager.addEnemy(new Enemy(100,500,200));
-		manager.addEnemy(new Enemy(0,600,200));
+		manager.addEnemy(new Enemy(100,260,200));
+		manager.addEnemy(new Enemy(30,235,200));
+		manager.addEnemy(new Enemy(-70,-150,200));
 	}
 	@Override
 	public void run() {
